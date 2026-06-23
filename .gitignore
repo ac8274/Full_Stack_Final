@@ -1,6 +1,7 @@
 # Dependency directories
 node_modules/
 jspm_packages/
+logs/
 
 # Environment variables (Crucial for security)
 .env
