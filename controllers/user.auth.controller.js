@@ -1,4 +1,4 @@
-import {isStringEmpty} from "../utils/queryValidation.js"
+import {isStringNotEmpty} from "../utils/queryValidation.js"
 import { usersAuthService } from "../services/user.auth.service.js";
 import logger from "../utils/logger.js"
 
@@ -14,11 +14,11 @@ export const signUpUser = async (req,res) => {
         const {username: username, email: userEmail, password: userPassword} = req.body;
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; //found online
         
-        if(isStringEmpty(username,"Username wasn't provided!\n") || isStringEmpty(userEmail,"Email wasn't provided!\n") || isStringEmpty(userPassword,"Password wasn't provided!\n"))
+        if(isStringNotEmpty(username,"Username wasn't provided!\n") || isStringNotEmpty(userEmail,"Email wasn't provided!\n") || isStringNotEmpty(userPassword,"Password wasn't provided!\n"))
         {
             throw {
                 status: 400,
-                Error: isStringEmpty(username,"Username wasn't provided!\n") + isStringEmpty(userEmail,"Email wasn't provided!\n") + isStringEmpty(userPassword,"Password wasn't provided!\n")
+                Error: isStringNotEmpty(username,"Username wasn't provided!\n") + isStringNotEmpty(userEmail,"Email wasn't provided!\n") + isStringNotEmpty(userPassword,"Password wasn't provided!\n")
             }
         }
         else if(!emailRegex.test(userEmail)){throw {status: 400, Error: "Fabricated email provided!\n"}}
@@ -50,11 +50,11 @@ export const signInUser = async (req,res) => {
             }
         }
         const {nameOrEmail: nameOrEmail, password: userPassword} = req.body;
-        if(isStringEmpty(nameOrEmail,"Username or Email waren't provided!\n") || isStringEmpty(userPassword,"Password wasn't provided!\n"))
+        if(isStringNotEmpty(nameOrEmail,"Username or Email waren't provided!\n") || isStringNotEmpty(userPassword,"Password wasn't provided!\n"))
         {
             throw {
                 status: 400,
-                Error: isStringEmpty(nameOrEmail,"Username or Email waren't provided!\n") + isStringEmpty(userPassword,"Password wasn't provided!\n")
+                Error: isStringNotEmpty(nameOrEmail,"Username or Email waren't provided!\n") + isStringNotEmpty(userPassword,"Password wasn't provided!\n")
             }
         }
         else{

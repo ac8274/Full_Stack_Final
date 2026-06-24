@@ -21,7 +21,7 @@ export const usersAuthService = {
             const UID = await UsersDAL.addUser(username,userEmail, await hashPassword(userPassword));
             const token = await createToken({UserUID: UID})
             return {
-                status: 200,
+                status: 201,
                 headers:{
                     token: token
                 }
