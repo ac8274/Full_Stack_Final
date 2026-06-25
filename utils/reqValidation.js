@@ -1,17 +1,17 @@
 import {verifyToken} from "../utils/token.js"
 
-export const isReqHasBody = (req, res, next) => {
+export const isReqHasBody = async (req, res, next) => {
     const {body,method} = req    
     !body ||  Object.keys(body).length === 0 && (method!== "GET" && method !== "DELETE") ?
         res.status(400).send("Body (data) is required") :
         next()
 }
 
-export const isTokenValid = (req, res, next) => {
+export const isTokenValid = async (req, res, next) => {
     try
     {
         const tokenData = await verifyToken(req.headers.authorization)
-        req.authorization = tokenData["token"]
+        req.authorization = tokenData
         next()
     }
     catch(error){

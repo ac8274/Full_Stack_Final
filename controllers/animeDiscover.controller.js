@@ -13,7 +13,6 @@ export const getAnimeList = async (req,res) => {
         if(queryResult.status >= 400){
             throw queryResult
         }
-        //logger.debug(queryResult.data);
         
         res.status(200).json(await includeFromDictArr(queryResult.data,"mal_id","url","title","episodes","status","duration","synopsis"));
     }
@@ -39,7 +38,6 @@ export const getAnimeListById = async (req,res) => {
         if(queryResult.status >= 400){
             throw queryResult
         }
-        //logger.debug(queryResult.data);
         res.status(200).json(queryResult.data);
     }
     catch(error)

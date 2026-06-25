@@ -1,4 +1,4 @@
-export const paramsToUrlString = (params) => {
+export const paramsToUrlString = async (params) => {
     let paramsUrl = "?"
     Object.keys(params).forEach(key => {
         paramsUrl += `${key}=${params[key]}&`

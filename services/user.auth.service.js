@@ -1,4 +1,5 @@
 import {UsersDAL} from "../DAL/users.DAL.js"
+import {WatchlistDAL} from "../DAL/watchlist.DAL.js"
 import {hashPassword, verifyPassword} from "../utils/hash.js"
 import {createToken} from "../utils/token.js"
 import logger from "../utils/logger.js"
@@ -19,6 +20,7 @@ export const usersAuthService = {
         }
         else{
             const UID = await UsersDAL.addUser(username,userEmail, await hashPassword(userPassword));
+            await WatchlistDAL.addUser(UID)
             const token = await createToken({UserUID: UID})
             return {
                 status: 201,

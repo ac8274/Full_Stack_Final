@@ -1,12 +1,17 @@
-import {isStringEmpty} from "../utils/queryValidation.js"
 import {usersWatchListService} from "../services/user.watchlist.service.js"
-import {WatchlistDAL} from "../DAL/watchlist.DAL.js";
 import {jikanAnimeById} from "../utils/jikansApi.js"
+import logger from "../utils/logger.js"
 
 export const filterWatchList = async (req,res) => {
     try{
         const {UserUID} = req.authorization;
-        const {title, episodes, status, genreNames, genreIds} = req.params;
+        if(! await usersWatchListService.checkIfUserExists(UserUID)){
+            throw {
+                status: 401,
+                Error: "FUCK YOU, Use the server as intended!"
+            }
+        }
+        const {title, episodes, status, genreNames, genreIds} = req.query;
         if(title && typeof title !== "string")
         {
             throw {
@@ -14,7 +19,7 @@ export const filterWatchList = async (req,res) => {
                 Error: "title wasn't provided!"
             }
         }
-        if(!episodes || typeof episodes !== "number"){
+        if(episodes && (typeof episodes !== "string" || Number.isInteger(episodes))){
             throw {
                 status: 400,
                 Error: "episods weren't provided!"
@@ -62,15 +67,22 @@ export const filterWatchList = async (req,res) => {
 export const listActions = async (req,res) => {
     try{
         const {UserUID} = req.authorization;
+        if(! await usersWatchListService.checkIfUserExists(UserUID)){
+            throw {
+                status: 401,
+                Error: "FUCK YOU, Use the server as intended!"
+            }
+        }
         const {mal_id} = req.params;
+        let result = 0
         switch(req.method)
         {
             case "GET":
-                const result = await usersWatchListService.getAnimeByID(UserUID,mal_id);
+                result = await usersWatchListService.getAnimeByID(UserUID,mal_id);
                 res.status(result.status).json(result)
                 break;
             case "POST":
-                const result = await usersWatchListService.createAnimeByID(UserUID,mal_id);
+                result = await usersWatchListService.createAnimeByID(UserUID,mal_id);
                 res.status(result.status).json(result)
                 break;
             case "PATCH":
@@ -81,7 +93,7 @@ export const listActions = async (req,res) => {
                     }
                 }
                 const {lastWatched} = req.body
-                if(!lastWatched || typeof lastWatched !== "number" || !Number.isInteger(lastWatched))
+                if(!lastWatched || typeof lastWatched !== "string" || !Number.isInteger(lastWatched))
                 {
                     throw {
                         status: 400,
@@ -89,11 +101,11 @@ export const listActions = async (req,res) => {
                     }
                 }
 
-                const result = await usersWatchListService.updateLatestChapterByID(UserUID,mal_id,lastWatched);
+                result = await usersWatchListService.updateLatestChapterByID(UserUID,mal_id,lastWatched);
                 res.status(result.status).json(result)
                 break;
             case "DELETE":
-                const result = await usersWatchListService.deleteAnimeByID(UserUID,mal_id);
+                result = await usersWatchListService.deleteAnimeByID(UserUID,mal_id);
                 res.status(result.status).json(result)
                 break;
             default:

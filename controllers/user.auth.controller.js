@@ -14,11 +14,11 @@ export const signUpUser = async (req,res) => {
         const {username: username, email: userEmail, password: userPassword} = req.body;
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; //found online
         
-        if(isStringNotEmpty(username,"Username wasn't provided!\n") || isStringNotEmpty(userEmail,"Email wasn't provided!\n") || isStringNotEmpty(userPassword,"Password wasn't provided!\n"))
+        if(await isStringNotEmpty(username,"Username wasn't provided!\n") || await isStringNotEmpty(userEmail,"Email wasn't provided!\n") || await isStringNotEmpty(userPassword,"Password wasn't provided!\n"))
         {
             throw {
                 status: 400,
-                Error: isStringNotEmpty(username,"Username wasn't provided!\n") + isStringNotEmpty(userEmail,"Email wasn't provided!\n") + isStringNotEmpty(userPassword,"Password wasn't provided!\n")
+                Error: await isStringNotEmpty(username,"Username wasn't provided!\n") + await isStringNotEmpty(userEmail,"Email wasn't provided!\n") + await isStringNotEmpty(userPassword,"Password wasn't provided!\n")
             }
         }
         else if(!emailRegex.test(userEmail)){throw {status: 400, Error: "Fabricated email provided!\n"}}
@@ -50,11 +50,11 @@ export const signInUser = async (req,res) => {
             }
         }
         const {nameOrEmail: nameOrEmail, password: userPassword} = req.body;
-        if(isStringNotEmpty(nameOrEmail,"Username or Email waren't provided!\n") || isStringNotEmpty(userPassword,"Password wasn't provided!\n"))
+        if(await isStringNotEmpty(nameOrEmail,"Username or Email waren't provided!\n") || await isStringNotEmpty(userPassword,"Password wasn't provided!\n"))
         {
             throw {
                 status: 400,
-                Error: isStringNotEmpty(nameOrEmail,"Username or Email waren't provided!\n") + isStringNotEmpty(userPassword,"Password wasn't provided!\n")
+                Error: await isStringNotEmpty(nameOrEmail,"Username or Email waren't provided!\n") + await isStringNotEmpty(userPassword,"Password wasn't provided!\n")
             }
         }
         else{
