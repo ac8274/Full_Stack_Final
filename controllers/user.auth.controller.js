@@ -5,6 +5,7 @@ import logger from "../utils/logger.js"
 
 export const signUpUser = async (req,res) => {
     try{
+        logger.info(req)
         if(!req.body){
             throw {
                 status: 400,
@@ -43,6 +44,7 @@ export const signUpUser = async (req,res) => {
 
 export const signInUser = async (req,res) => {
     try{
+        logger.info(req)
         if(!req.body){
             throw {
                 status: 400,

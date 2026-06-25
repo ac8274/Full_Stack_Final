@@ -5,6 +5,7 @@ import logger from "../utils/logger.js"
 
 export const getAnimeList = async (req,res) => {
     try{
+        logger.info(req)
         if(!req.query){
             const queryResult = await jikanSearch({page: Math.floor(Math.random() * maxPage)});
             res.status(200).json(await includeFromDictArr(queryResult.data,"mal_id","url","title","episodes","status","duration","synopsis"));
@@ -33,6 +34,7 @@ export const getAnimeList = async (req,res) => {
 export const getAnimeListById = async (req,res) => {
     try
     {
+        logger.info(req)
         const {id} = req.params;
         const queryResult = await jikanAnimeById(id);
         if(queryResult.status >= 400){

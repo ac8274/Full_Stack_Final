@@ -16,8 +16,8 @@ export const usersWatchListService =  {
             animes = animes.filter((animeInfo) => animeInfo["status"] === status)
         }
         if(genreNames && genreIds) {
-            names = genreNames.split(",")
-            ids = genreIds.split(",").map((genreId) => jikanGenreById(genreId))
+            const names = genreNames.split(",")
+            const ids = genreIds.split(",").map((genreId) => jikanGenreById(genreId))
             if(ids.includes("")){throw {status: 400, Erro:"some\\all genres IDS are non existent!"}}
             const genres = [...new Set([...names, ...ids])]
             animes = animes.filter((animeInfo) => genres.every(genre => animeInfo["genreNames"].includes(genre)))
@@ -28,7 +28,7 @@ export const usersWatchListService =  {
             animes = animes.filter((animeInfo) => genres.every(genre => animeInfo["genreNames"].includes(genre)))
         }
         else if(genreIds){
-            ids = genreIds.split(",").map((genreId) => jikanGenreById(genreId))
+            const ids = genreIds.split(",").map((genreId) => jikanGenreById(genreId))
             if(ids.includes("")){throw {status: 400, Erro:"some\\all genres IDS are non existent!"}}
             animes = animes.filter((animeInfo) => ids.every(genre => animeInfo["genreNames"].includes(genre)))
         }
@@ -36,7 +36,7 @@ export const usersWatchListService =  {
     },
     
     getAnimeByID : async (UID,mal_id) => {
-        const anime = await WatchlistDAL.getAnimeByID(UserUID,mal_id)
+        const anime = await WatchlistDAL.getAnimeByID(UID,mal_id)
         if(!anime)
         {
             throw{

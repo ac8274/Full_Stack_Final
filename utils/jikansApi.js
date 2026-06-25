@@ -14,7 +14,7 @@ export const jikanAnimeById = async (id) => {
     return response.json();
 }
 
-export const jikanGenreById = async (id) => {
+export const jikanGenreById = (id) => {
     return jikanGenresId[id] ?? "";
 }
 

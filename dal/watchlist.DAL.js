@@ -45,6 +45,6 @@ export const WatchlistDAL = {
     },
     updateLatestEpisodeByID : async (UID,mal_id,episode) => {
         const index = watchlistDB[UID].findIndex((animeInfo) => animeInfo["id"] === mal_id)
-        watchlistDB[UID][index]["episodes"] = episode
+        watchlistDB[UID][index]["lastWatched"] = episode
     }
 }

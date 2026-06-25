@@ -4,6 +4,7 @@ import logger from "../utils/logger.js"
 
 export const filterWatchList = async (req,res) => {
     try{
+        logger.info(req)
         const {UserUID} = req.authorization;
         if(! await usersWatchListService.checkIfUserExists(UserUID)){
             throw {
@@ -66,6 +67,7 @@ export const filterWatchList = async (req,res) => {
 
 export const listActions = async (req,res) => {
     try{
+        logger.info(req)
         const {UserUID} = req.authorization;
         if(! await usersWatchListService.checkIfUserExists(UserUID)){
             throw {
@@ -93,7 +95,7 @@ export const listActions = async (req,res) => {
                     }
                 }
                 const {lastWatched} = req.body
-                if(!lastWatched || typeof lastWatched !== "string" || !Number.isInteger(lastWatched))
+                if(!lastWatched || typeof lastWatched !== "number" || !Number.isInteger(lastWatched))
                 {
                     throw {
                         status: 400,
